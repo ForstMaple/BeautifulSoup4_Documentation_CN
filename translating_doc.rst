@@ -15,8 +15,7 @@ Beautiful Soup Documentation
 这篇文档对应的是Beautiful Soup 4.9.2版本。这里面的例子应该同时适用于Python 2.7和Python 3.8。
 
 你或许在找 `Beautiful Soup 3
-<http://www.crummy.com/software/BeautifulSoup/bs3/documentation.html>`_ 的文档。
-但Beautiful Soup 3已经停止开发，对它的支持也已经在2020年12月31日停止。
+<http://www.crummy.com/software/BeautifulSoup/bs3/documentation.html>`_ 的文档。但Beautiful Soup 3已经停止开发，对它的支持也已经在2020年12月31日停止。
 如果你想要了解Beautiful Soup 3和Beautiful Soup 4的区别，请查看`移植代码到BS4`_ 。
 
 这篇文档已经被Beautiful Soup的使用者翻译成了多种语言：
