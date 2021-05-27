@@ -42,8 +42,11 @@ templates_path = ['_templates']
 # source_suffix = ['.rst', '.md']
 source_suffix = '.rst'
 
+# source_encoding
+source_encoding = 'utf-8'
+
 # The master toctree document.
-master_doc = 'index'
+master_doc = 'translating_doc'
 
 # General information about the project.
 project = 'beautifulsoup'
