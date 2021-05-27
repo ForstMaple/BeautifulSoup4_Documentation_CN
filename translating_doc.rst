@@ -941,29 +941,24 @@ Beautiful Soup定义了不少方法来对解析后生成的文档树进行搜索
 
 .. _a string:
 
-传入字符串作为筛选器
+字符串
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-最简单的筛选器就是字符串了。
-The simplest filter is a string. Pass a string to a search method and
-Beautiful Soup will perform a match against that exact string. This
-code finds all the <b> tags in the document::
+最简单的筛选器就是字符串了。如果你将一个字符串传入一个搜索方法，Beautiful Soup会查找与字符串完整匹配的内容。
+例如下面这段代码可以查找文档中所有的 <b> tag::
 
  soup.find_all('b')
  # [<b>The Dormouse's story</b>]
 
-If you pass in a byte string, Beautiful Soup will assume the string is
-encoded as UTF-8. You can avoid this by passing in a Unicode string instead.
+如果你传入一个字节串（byte string），Beautiful Soup会假定它是以UTF-8编码的。你可以通过传入Unicode字符串来避免这个问题。
 
 .. _a regular expression:
 
-A regular expression
+正则表达式
 ^^^^^^^^^^^^^^^^^^^^
 
-If you pass in a regular expression object, Beautiful Soup will filter
-against that regular expression using its ``search()`` method. This code
-finds all the tags whose names start with the letter "b"; in this
-case, the <body> tag and the <b> tag::
+如果你传入一个正则表达式对象 [#]_ 作为筛选器，Beautiful Soup会用它的 ``.search()`` 方法来进行匹配。
+下面的代码可以查找所有name以“b”开头tag，在这个例子里面查找的结果是 <body> 和 <b> 两个tag::
 
  import re
  for tag in soup.find_all(re.compile("^b")):
@@ -980,12 +975,12 @@ This code finds all the tags whose names contain the letter 't'::
 
 .. _a list:
 
-A list
+列表
 ^^^^^^
 
-If you pass in a list, Beautiful Soup will allow a string match
-against `any` item in that list. This code finds all the <a> tags
-`and` all the <b> tags::
+如果你传入一个列表，Beautiful Soup会返回匹配列表中任意一个值的对象。
+下面这段代码可以查找所有<a> tag和<b> tag::
+
 
  soup.find_all(["a", "b"])
  # [<b>The Dormouse's story</b>,
@@ -998,8 +993,8 @@ against `any` item in that list. This code finds all the <a> tags
 ``True``
 ^^^^^^^^
 
-The value ``True`` matches everything it can. This code finds `all`
-the tags in the document, but none of the text strings::
+``True`` 可以匹配任意值。
+下面这段代码可以查找文档中的所有tag，但是不会返回tag包含的文本字符串::
 
  for tag in soup.find_all(True):
      print(tag.name)
@@ -1017,31 +1012,26 @@ the tags in the document, but none of the text strings::
 
 .. a function:
 
-A function
+函数
 ^^^^^^^^^^
 
-If none of the other matches work for you, define a function that
-takes an element as its only argument. The function should return
-``True`` if the argument matches, and ``False`` otherwise.
+如果以上任何一种筛选器都不能满足你的需求，你可以定义一个只接受一个HTML元素作为参数的函数。
+这个函数应该在对应元素匹配时返回 ``True``，不匹配时返回 ``False``。
 
-Here's a function that returns ``True`` if a tag defines the "class"
-attribute but doesn't define the "id" attribute::
+下面这个函数在一个tag定义有class这个attribute而没有id这个attribute时返回 ``True``::
 
  def has_class_but_no_id(tag):
      return tag.has_attr('class') and not tag.has_attr('id')
 
-Pass this function into ``find_all()`` and you'll pick up all the <p>
-tags::
+将这个函数传入 ``.find_all()`` 方法，你会得到所有的<p> tag::
 
  soup.find_all(has_class_but_no_id)
  # [<p class="title"><b>The Dormouse's story</b></p>,
  #  <p class="story">Once upon a time there were…bottom of a well.</p>,
  #  <p class="story">...</p>]
 
-This function only picks up the <p> tags. It doesn't pick up the <a>
-tags, because those tags define both "class" and "id". It doesn't pick
-up tags like <html> and <title>, because those tags don't define
-"class".
+这个函数只会匹配<p> tag，而不会匹配<a> tag，因为 <a> tag同时有class和id两个attribute。
+这个函数也不会匹配像<html>和<title>这样的tag，因为它们没有class这个attribute。
 
 If you pass in a function to filter on a specific attribute like
 ``href``, the argument passed into the function will be the attribute
@@ -3376,3 +3366,4 @@ The ``prettify()`` method now returns a Unicode string, not a bytestring.
 .. [#] 此处的空白（whitespace）不仅指空格，还包括换行符（\\n）等转义字符。
 .. [#] 原英文文档中没有这一操作，译者认为可能是作者漏写了。
 .. [#] 原英文文档是 “the conclusion of the sentence that was interrupted by the start of the <a> tag”，译者认为可能是作者笔误，将end写成了start。
+.. [#] 此处是指经过re.compile()预编译的re.Pattern对象。
